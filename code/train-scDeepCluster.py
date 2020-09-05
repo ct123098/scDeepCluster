@@ -51,7 +51,7 @@ if __name__ == "__main__":
     parser.add_argument('--save_dir', default='results/scDeepCluster')
     parser.add_argument('--ae_weight_file', default='ae_weights.h5')
     parser.set_defaults(early_stop=True)
-    parser.add_argument('--no-early_stop', dest='early_stop', action='store_false')
+    parser.add_argument('--no_early_stop', dest='early_stop', action='store_false')
 
     args = parser.parse_args()
 
