@@ -111,7 +111,7 @@ if __name__ == "__main__":
     # begin clustering, time not include pretraining part.
 
     scDeepCluster.fit(x_counts=adata.X, sf=adata.obs.size_factors, y=y, raw_counts=adata.raw.X, batch_size=args.batch_size, tol=args.tol, maxiter=args.maxiter,
-             update_interval=args.update_interval, ae_weights=args.ae_weights, save_dir=args.save_dir, loss_weights=[args.gamma, 1], optimizer=optimizer2, early_stop=early_stop)
+             update_interval=args.update_interval, ae_weights=args.ae_weights, save_dir=args.save_dir, loss_weights=[args.gamma, 1], optimizer=optimizer2, early_stop=args.early_stop)
 
     # Show the final results
     print("Final:")
