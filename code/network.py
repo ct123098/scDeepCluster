@@ -312,9 +312,12 @@ class SCDeepCluster(object):
 
             ite += 1
 
+        
+
         # save the trained model
         logfile.close()
         print('saving model to: ' + save_dir + '/scDeepCluster_model_final.h5')
         self.model.save_weights(save_dir + '/scDeepCluster_model_final.h5')
         
         return self.y_pred
+    

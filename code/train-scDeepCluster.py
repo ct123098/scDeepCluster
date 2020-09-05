@@ -110,9 +110,11 @@ if __name__ == "__main__":
              update_interval=args.update_interval, ae_weights=args.ae_weights, save_dir=args.save_dir, loss_weights=[args.gamma, 1], optimizer=optimizer2)
 
     # Show the final results
-    y_pred = scDeepCluster.y_pred
-    acc = np.round(cluster_acc(y, scDeepCluster.y_pred), 5)
-    nmi = np.round(metrics.normalized_mutual_info_score(y, scDeepCluster.y_pred), 5)
-    ari = np.round(metrics.adjusted_rand_score(y, scDeepCluster.y_pred), 5)
+    q, _ = scDeepCluster.predict([adata.X, adata.obs.size_factors], verbose=0)
+    y_pred = q.argmax(1)
+    # evaluate the clustering performance
+    acc = np.round(cluster_acc(y, y_pred), 5)
+    nmi = np.round(metrics.normalized_mutual_info_score(y, y_pred), 5)
+    ari = np.round(metrics.adjusted_rand_score(y, y_pred), 5)
     print('Final: ACC= %.4f, NMI= %.4f, ARI= %.4f' % (acc, nmi, ari))
     print('Clustering time: %d seconds.' % int(time() - t0))
