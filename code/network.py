@@ -43,8 +43,10 @@ def cluster_acc(y_true, y_pred):
     w = np.zeros((D, D), dtype=np.int64)
     for i in range(y_pred.size):
         w[y_pred[i], y_true[i]] += 1
-    from scipy.optimize import linear_sum_assignment as linear_assignment
-    ind = linear_assignment(w.max() - w)
+    from scipy.optimize import linear_sum_assignment
+    ind = linear_sum_assignment(w.max() - w)
+    ind = np.asarray(ind)
+    ind = np.transpose(ind)
     return sum([w[i, j] for i, j in ind]) * 1.0 / y_pred.size
 
 
@@ -238,7 +240,7 @@ class SCDeepCluster(object):
 
         # Step 1: pretrain
         if not self.pretrained and ae_weights is None:
-            raise "TODO: there might be some problem."
+            raise "TODO: here might be some problem."
             print('...pretraining autoencoders using default hyper-parameters:')
             print('   optimizer=\'adam\';   epochs=200')
             self.pretrain(x, batch_size)
