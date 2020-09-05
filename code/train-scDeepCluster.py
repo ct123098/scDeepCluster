@@ -110,7 +110,7 @@ if __name__ == "__main__":
              update_interval=args.update_interval, ae_weights=args.ae_weights, save_dir=args.save_dir, loss_weights=[args.gamma, 1], optimizer=optimizer2)
 
     # Show the final results
-    q, _ = scDeepCluster.predict([adata.X, adata.obs.size_factors], verbose=0)
+    q, _ = scDeepCluster.model.predict([adata.X, adata.obs.size_factors], verbose=0)
     y_pred = q.argmax(1)
     # evaluate the clustering performance
     acc = np.round(cluster_acc(y, y_pred), 5)
