@@ -208,8 +208,8 @@ class SCDeepCluster(object):
     def pretrain(self, x, y, batch_size=256, epochs=200, optimizer='adam', ae_file='ae_weights.h5'):
         print('...Pretraining autoencoder...')
         self.autoencoder.compile(loss=self.loss, optimizer=optimizer)
-        es = EarlyStopping(monitor="loss", patience=50, verbose=1)
-        self.autoencoder.fit(x=x, y=y, batch_size=batch_size, epochs=epochs, callbacks=[es])
+        # es = EarlyStopping(monitor="loss", patience=50, verbose=1)
+        # self.autoencoder.fit(x=x, y=y, batch_size=batch_size, epochs=epochs, callbacks=[es])
         self.autoencoder.save_weights(ae_file)
         print('Pretrained weights are saved to ./' + str(ae_file))
         self.pretrained = True
@@ -230,7 +230,7 @@ class SCDeepCluster(object):
         return (weight.T / weight.sum(1)).T
 
     def fit(self, x_counts, sf, y, raw_counts, batch_size=256, maxiter=2e4, tol=1e-3, update_interval=140,
-            ae_weights=None, save_dir='./results/scDeepCluster', loss_weights=[1,1], optimizer='adadelta'):
+            ae_weights=None, save_dir='./results/scDeepCluster', loss_weights=[1,1], optimizer='adadelta', early_stop=True):
 
         self.model.compile(loss=['kld', self.loss], loss_weights=loss_weights, optimizer=optimizer)
 
@@ -286,11 +286,12 @@ class SCDeepCluster(object):
                 # check stop criterion
                 delta_label = np.sum(self.y_pred != y_pred_last).astype(np.float32) / self.y_pred.shape[0]
                 y_pred_last = np.copy(self.y_pred)
-                if ite > 0 and delta_label < tol:
-                    print('delta_label ', delta_label, '< tol ', tol)
-                    print('Reached tolerance threshold. Stopping training.')
-                    logfile.close()
-                    break
+                if early_stop:
+                    if ite > 0 and delta_label < tol:
+                        print('delta_label ', delta_label, '< tol ', tol)
+                        print('Reached tolerance threshold. Stopping training.')
+                        logfile.close()
+                        break
 
             # train on batch
             if (index + 1) * batch_size > x_counts.shape[0]:
