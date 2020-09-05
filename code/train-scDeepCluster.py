@@ -100,6 +100,9 @@ if __name__ == "__main__":
 
     t0 = time()
 
+    print("Initial:")
+    scDeepCluster.eval(adata.X, adata.obs.size_factors, y)
+
     # Pretrain autoencoders before clustering
     if args.ae_weights is None:
         scDeepCluster.pretrain(x=[adata.X, adata.obs.size_factors], y=adata.raw.X, batch_size=args.batch_size, epochs=args.pretrain_epochs, optimizer=optimizer1, ae_file=args.ae_weight_file)
@@ -110,11 +113,13 @@ if __name__ == "__main__":
              update_interval=args.update_interval, ae_weights=args.ae_weights, save_dir=args.save_dir, loss_weights=[args.gamma, 1], optimizer=optimizer2)
 
     # Show the final results
-    q, _ = scDeepCluster.model.predict([adata.X, adata.obs.size_factors], verbose=0)
-    y_pred = q.argmax(1)
-    # evaluate the clustering performance
-    acc = np.round(cluster_acc(y, y_pred), 5)
-    nmi = np.round(metrics.normalized_mutual_info_score(y, y_pred), 5)
-    ari = np.round(metrics.adjusted_rand_score(y, y_pred), 5)
-    print('Final: ACC= %.4f, NMI= %.4f, ARI= %.4f' % (acc, nmi, ari))
+    print("Final:")
+    scDeepCluster.eval(adata.X, adata.obs.size_factors, y)
+    # q, _ = scDeepCluster.model.predict([], verbose=0)
+    # y_pred = q.argmax(1)
+    # # evaluate the clustering performance
+    # acc = np.round(cluster_acc(y, y_pred), 5)
+    # nmi = np.round(metrics.normalized_mutual_info_score(y, y_pred), 5)
+    # ari = np.round(metrics.adjusted_rand_score(y, y_pred), 5)
+    # print('Final: ACC= %.4f, NMI= %.4f, ARI= %.4f' % (acc, nmi, ari))
     print('Clustering time: %d seconds.' % int(time() - t0))

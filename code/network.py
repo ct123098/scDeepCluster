@@ -241,10 +241,10 @@ class SCDeepCluster(object):
         # Step 1: pretrain
         if not self.pretrained and ae_weights is None:
             raise "TODO: here might be some problem."
-            print('...pretraining autoencoders using default hyper-parameters:')
-            print('   optimizer=\'adam\';   epochs=200')
-            self.pretrain(x, batch_size)
-            self.pretrained = True
+            # print('...pretraining autoencoders using default hyper-parameters:')
+            # print('   optimizer=\'adam\';   epochs=200')
+            # self.pretrain(x, batch_size)
+            # self.pretrained = True
         elif ae_weights is not None:
             self.autoencoder.load_weights(ae_weights)
             print('ae_weights is loaded successfully.')
@@ -312,7 +312,7 @@ class SCDeepCluster(object):
 
             ite += 1
 
-        
+
 
         # save the trained model
         logfile.close()
@@ -321,3 +321,13 @@ class SCDeepCluster(object):
         
         return self.y_pred
     
+    def eval(self, x_count, sf, y, verbose=1):
+        # Show the final results
+        q, _ = self.model.predict([x_count, sf], verbose=0)
+        y_pred = q.argmax(1)
+        # evaluate the clustering performance
+        acc = np.round(cluster_acc(y, y_pred), 5)
+        nmi = np.round(metrics.normalized_mutual_info_score(y, y_pred), 5)
+        ari = np.round(metrics.adjusted_rand_score(y, y_pred), 5)
+        if verbose:
+            print('ACC= %.4f, NMI= %.4f, ARI= %.4f' % (acc, nmi, ari))
