@@ -337,6 +337,5 @@ class SCDeepCluster(object):
         # Show the final results
         q, h = self.model.predict([x_count, sf], verbose=0)
         y_pred = q.argmax(1)
-        np.savetxt("../{}-h.txt".format(file_name), h)
-        np.savetxt("../{}-y.txt".format(file_name), y_pred)
-
+        np.save("../{}-h.txt".format(file_name), h.numpy.astype(np.float32))
+        np.save("../{}-y.txt".format(file_name), y_pred.astype(np.int32))
