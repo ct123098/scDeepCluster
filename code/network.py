@@ -332,3 +332,11 @@ class SCDeepCluster(object):
         ari = np.round(metrics.adjusted_rand_score(y, y_pred), 5)
         if verbose:
             print('ACC= %.4f, NMI= %.4f, ARI= %.4f' % (acc, nmi, ari))
+    
+    def output(self, x_count, sf, file_name):
+        # Show the final results
+        q, h = self.model.predict([x_count, sf], verbose=0)
+        y_pred = q.argmax(1)
+        np.savetxt("../{}-h.txt".format(file_name), h)
+        np.savetxt("../{}-y.txt".format(file_name), y_pred)
+

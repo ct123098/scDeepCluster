@@ -52,6 +52,7 @@ if __name__ == "__main__":
     parser.add_argument('--ae_weight_file', default='ae_weights.h5')
     parser.set_defaults(early_stop=True)
     parser.add_argument('--no_early_stop', dest='early_stop', action='store_false')
+    parser.add_argument('--name', default='None')
 
     args = parser.parse_args()
 
@@ -117,6 +118,7 @@ if __name__ == "__main__":
     # Show the final results
     print("Final:")
     scDeepCluster.eval(adata.X, adata.obs.size_factors, y)
+    scDeepCluster.output(adata.X, adata.obs.size_factors, args.name)
     # q, _ = scDeepCluster.model.predict([], verbose=0)
     # y_pred = q.argmax(1)
     # # evaluate the clustering performance
