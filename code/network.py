@@ -300,10 +300,10 @@ class SCDeepCluster(object):
                 index = 0
             else:
                 print(index, batch_size)
-                print("x_counts : ", x_counts.shape, x_counts.type)
-                print("sf : ", sf.shape, sf.type)
-                print("p : ", p.shape, p.type)
-                print("raw_counts : ", raw_counts.shape, raw_counts.type)
+                print("x_counts : ", x_counts.shape, x_counts.dtype)
+                print("sf : ", sf.shape, sf.dtype)
+                print("p : ", p.shape, p.dtype)
+                print("raw_counts : ", raw_counts.shape, raw_counts.dtype)
                 # print(x_counts.shape, sf.shape, p.shape, row_counts.shape)
                 loss = self.model.train_on_batch(x=[x_counts[index * batch_size:(index + 1) * batch_size], 
                                                     sf[index * batch_size:(index + 1) * batch_size]],
