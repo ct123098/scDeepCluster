@@ -352,4 +352,6 @@ class SCDeepCluster(object):
         h = self.encoder.predict([x_count, sf])
         np.save("{}-h".format(file_name), h.astype(np.float32))
         np.save("{}-y".format(file_name), y_pred.astype(np.int32))
+        print("X shape: ", x_count.shape)
+        print("feature shape: ", h.shape, y_pred.shape)
         print("[INFO] write result to {}".format(file_name))
