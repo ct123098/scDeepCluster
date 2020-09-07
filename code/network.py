@@ -352,3 +352,4 @@ class SCDeepCluster(object):
         h = self.encoder.predict([x_count, sf])
         np.save("{}-h".format(file_name), h.astype(np.float32))
         np.save("{}-y".format(file_name), y_pred.astype(np.int32))
+        print("[INFO] write result to {}".format(file_name))
