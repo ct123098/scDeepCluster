@@ -340,9 +340,11 @@ class SCDeepCluster(object):
         h = self.encoder.predict([x_count, sf])
         # np.save("../{}-h".format(file_name), h.astype(np.float32))
         # np.save("../{}-y".format(file_name), y_pred.astype(np.int32))
+        adata = adata.raw
         adata.obsm["deepcluster-h"] = h.astype(np.float32)
         adata.obsm["deepcluster-y"] = y_pred.astype(np.int32)
         adata.write(file_name)
+        print("[INFO] write result to {}".format(file_name))
 
     # def output(self, x_count, sf, file_name):
     #     # Show the final results
