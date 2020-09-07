@@ -333,23 +333,22 @@ class SCDeepCluster(object):
         if verbose:
             print('ACC= %.4f, NMI= %.4f, ARI= %.4f' % (acc, nmi, ari))
     
-    def output(self, x_count, sf, adata, file_name):
+    def output_ann(self, x_count, sf, adata, file_name):
         # Show the final results
         q, _ = self.model.predict([x_count, sf], verbose=0)
         y_pred = q.argmax(1)
         h = self.encoder.predict([x_count, sf])
         # np.save("../{}-h".format(file_name), h.astype(np.float32))
         # np.save("../{}-y".format(file_name), y_pred.astype(np.int32))
-        adata = adata.raw
         adata.obsm["deepcluster-h"] = h.astype(np.float32)
         adata.obsm["deepcluster-y"] = y_pred.astype(np.int32)
         adata.write(file_name)
         print("[INFO] write result to {}".format(file_name))
 
-    # def output(self, x_count, sf, file_name):
-    #     # Show the final results
-    #     q, _ = self.model.predict([x_count, sf], verbose=0)
-    #     y_pred = q.argmax(1)
-    #     h = self.encoder.predict([x_count, sf])
-    #     np.save("../{}-h".format(file_name), h.astype(np.float32))
-    #     np.save("../{}-y".format(file_name), y_pred.astype(np.int32))
+    def output_np(self, x_count, sf, file_name):
+        # Show the final results
+        q, _ = self.model.predict([x_count, sf], verbose=0)
+        y_pred = q.argmax(1)
+        h = self.encoder.predict([x_count, sf])
+        np.save("{}-h".format(file_name), h.astype(np.float32))
+        np.save("{}-y".format(file_name), y_pred.astype(np.int32))
