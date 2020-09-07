@@ -119,7 +119,7 @@ if __name__ == "__main__":
     # Show the final results
     print("Final:")
     # scDeepCluster.eval(adata.X, adata.obs.size_factors, y)
-    scDeepCluster.output(adata.X, adata.obs.size_factors, args.name)
+    scDeepCluster.output(adata.X, adata.obs.size_factors, adata, "../../../log/{}.h5ad".format(args.name))
     # q, _ = scDeepCluster.model.predict([], verbose=0)
     # y_pred = q.argmax(1)
     # # evaluate the clustering performance
