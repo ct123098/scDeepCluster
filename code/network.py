@@ -296,7 +296,7 @@ class SCDeepCluster(object):
             # train on batch
             if (index + 1) * batch_size > x_counts.shape[0]:
                 loss = self.model.train_on_batch(x=[x_counts[index * batch_size::], sf[index * batch_size:]],
-                                                 y=[p[index * batch_size::], raw_counts[index * batch_size::]])
+                                                 y=[p[index * batch_size::], raw_counts[index * batch_size::].toarray()])
                 index = 0
             else:
                 # print(index, batch_size)
