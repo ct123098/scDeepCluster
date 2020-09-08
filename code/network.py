@@ -308,7 +308,7 @@ class SCDeepCluster(object):
                 loss = self.model.train_on_batch(x=[x_counts[index * batch_size:(index + 1) * batch_size], 
                                                     sf[index * batch_size:(index + 1) * batch_size]],
                                                  y=[p[index * batch_size:(index + 1) * batch_size],
-                                                    raw_counts[index * batch_size:(index + 1) * batch_size]])
+                                                    raw_counts[index * batch_size:(index + 1) * batch_size].toarray()])
                 index += 1
 
             # save intermediate model
