@@ -30,6 +30,8 @@ seed(2211)
 from tensorflow import set_random_seed
 set_random_seed(2211)
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 
 
 if __name__ == "__main__":
