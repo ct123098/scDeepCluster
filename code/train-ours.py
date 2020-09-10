@@ -132,3 +132,8 @@ if __name__ == "__main__":
     # ari = np.round(metrics.adjusted_rand_score(y, y_pred), 5)
     # print('Final: ACC= %.4f, NMI= %.4f, ARI= %.4f' % (acc, nmi, ari))
     print('Clustering time: %d seconds.' % int(time() - t0))
+
+    import psutil
+    import os
+    print('memory used:', (psutil.Process(os.getpid()).memory_info().rss)/1024/1024)
+    print('total memory:' ,psutil.virtual_memory().total/1024/1024)
